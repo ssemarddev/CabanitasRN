@@ -1,9 +1,12 @@
 import { View, Text } from 'react-native'
 import React from 'react'
-import { Redirect } from 'expo-router';
 
 const index = () => {
-  return <Redirect href="./Prueba" />;
+  return (
+    <View>
+      <Text>Desde Native</Text>
+    </View>
+  )
 }
 
 export default index
