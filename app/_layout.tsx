@@ -1,6 +1,7 @@
 // Importamos los componentes necesarios de React Native y React
 import { View, Text } from "react-native";
 import React, { useEffect } from "react";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 // Importamos el archivo de estilos globales
 import "../global.css";
@@ -36,7 +37,12 @@ const RootLayout = () => {
   if (!fontsLoaded && error) return null;
 
   // Retornamos el Slot, que representa el contenido de las rutas dentro del layout principal
-  return <Slot />;
+  return (
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <Slot/>
+    </GestureHandlerRootView>
+  );
+
 };
 
 // Exportamos el componente para su uso en la aplicación
