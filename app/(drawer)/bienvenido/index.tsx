@@ -9,6 +9,7 @@ import {
   Image,
   ScrollView,
 } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 import { Formik } from "formik";
 import * as Yup from "yup";
 
@@ -27,14 +28,20 @@ const validationSchema = Yup.object().shape({
 
 const Formulario = () => {
   return (
+    <LinearGradient
+      colors={["#FED78A", "#ffbf37"]}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 1 }}
+      className="flex-1 justify-center p-4"
+    >
     <ScrollView>
-      <View>
+      <View className="mt-16">
         <View className="flex justify-center items-center w-full">
           <Image source={require("../../../assets/images/LogoCaba.png")} />
-          <Text className="font-Poppins-ExtraBold text-[32px]">
+          <Text className="font-Poppins-ExtraBold text-[32px] text-center w-full">
             Bienvenido
           </Text>
-          <Text className="font-Poppins-Regular text-[12px] text-center">
+          <Text className="font-Poppins-Regular text-[12px] text-center w-full">
             Ingresa tus datos para recibir tu {"\n"} cortesia de cumpleanos
           </Text>
         </View>
@@ -119,6 +126,7 @@ const Formulario = () => {
         </Formik>
       </View>
     </ScrollView>
+    </LinearGradient>
   );
 };
 
