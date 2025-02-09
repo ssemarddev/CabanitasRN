@@ -165,10 +165,8 @@ const Index = () => {
     const nombreCoincide = item.nombre
       .toLowerCase()
       .includes(search.toLowerCase());
-
     const mesCoincide =
       selectedMonth === "todos" || item.fecha.split("-")[1] === selectedMonth;
-
     return nombreCoincide && mesCoincide;
   });
 
@@ -185,7 +183,7 @@ const Index = () => {
       end={{ x: 1, y: 1 }}
       className="flex-1 justify-center p-4"
     >
-      <Text className="text-black text-3xl font-Poppins-ExtraBold text-center">
+      <Text className="text-black text-3xl font-Poppins-ExtraBold text-center mt-8">
         Cupones
       </Text>
       <Text className="text-black text-center text-base">
@@ -224,95 +222,111 @@ const Index = () => {
           >
             <Picker.Item label="Todos" value="todos" />
             {[
-              "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
-            "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
-          ].map((mes, index) => (
-            <Picker.Item
-            key={index + 1}
-            label={mes}
-            value={(index + 1).toString().padStart(2, "0")}
+              "Enero",
+              "Febrero",
+              "Marzo",
+              "Abril",
+              "Mayo",
+              "Junio",
+              "Julio",
+              "Agosto",
+              "Septiembre",
+              "Octubre",
+              "Noviembre",
+              "Diciembre",
+            ].map((mes, index) => (
+              <Picker.Item
+                key={index}
+                label={mes}
+                value={(index + 1).toString().padStart(2, "0")}
               />
             ))}
           </Picker>
         </View>
       </View>
 
-      {/* Tabla */}
-      <View className="mt-3">
-        <View className="flex-row bg-gray-300 p-3 rounded-md text-center">
-          <Text className="flex-1 font-Poppins-Bold text-black text-base">
-            Nombre
-          </Text>
-          <Text className="flex-1 font-Poppins-Bold text-black text-base">
-            E-mail
-          </Text>
-          <Text className="flex-1 font-Poppins-Bold text-black text-base">
-            Número
-          </Text>
-          <Text className="flex-1 font-Poppins-Bold text-black text-base">
-            Fecha
-          </Text>
+      <View className="flex-1 overflow-auto">
+        
+        <View className="mt-3">
+          <View className="flex-row bg-gray-300 p-3 rounded-md text-center">
+            <Text className="flex-1 font-Poppins-Bold text-black text-base">
+              Nombre
+            </Text>
+            <Text className="flex-1 font-Poppins-Bold text-black text-base">
+              E-mail
+            </Text>
+            <Text className="flex-1 font-Poppins-Bold text-black text-base">
+              Número
+            </Text>
+            <Text className="flex-1 font-Poppins-Bold text-black text-base">
+              Fecha
+            </Text>
+          </View>
+
+          {/* Lista de datos */}
+          <View className="overflow-auto" style={{ maxHeight: 300 }}>
+            <FlatList
+              className="bg-gray-200"
+              data={datosPagina}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => (
+                <View className="flex-row border-b border-gray-400 p-3">
+                  <Text className="flex-1 text-black text-xs">
+                    {item.nombre}
+                  </Text>
+                  <Text className="flex-1 text-black text-xs">
+                    {item.email}
+                  </Text>
+                  <Text className="flex-1 text-black text-xs">
+                    {item.numero}
+                  </Text>
+                  <Text className="flex-1 text-black text-xs">
+                    {item.fecha}
+                  </Text>
+                </View>
+              )}
+            />
+          </View>
         </View>
 
-        <View className="flex-1 overflow-auto">
-          <FlatList
-            className="bg-gray-200"
-            data={datosPagina}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
-              <View className="flex-row border-b border-gray-400 p-3">
-                <Text className="flex-1 text-black text-xs">{item.nombre}</Text>
-                <Text className="flex-1 text-black text-xs">{item.email}</Text>
-                <Text className="flex-1 text-black text-xs">{item.numero}</Text>
-                <Text className="flex-1 text-black text-xs">{item.fecha}</Text>
-              </View>
-            )}
-          />
-        </View>
-      </View>
-
-      {/* Controles de paginación */}
-      <View className="flex-row justify-between items-center bg-white py-3 px-5 rounded-b-lg shadow-md">
-        {/* Botón Anterior */}
-        <TouchableOpacity
-          className={`px-4 py-2 rounded-lg ${
-            paginaActual === 1 ? "bg-gray-300" : "bg-gray-200"
-          }`}
-          disabled={paginaActual === 1}
-          onPress={() => setPaginaActual((prev) => prev - 1)}
-        >
-          <Text className="text-black font-medium">Anterior</Text>
-        </TouchableOpacity>
-
-        {/* Numeración de páginas */}
-        <View className="flex-row items-center space-x-2">
-          <Text
-            className={`px-3 py-1 rounded-full font-semibold ${
-              paginaActual === 1 ? "bg-yellow-400 text-black" : "text-black"
+        <View className="flex-row justify-between items-center bg-white py-3 px-5 rounded-b-lg shadow-md">
+          {/* Botón Anterior */}
+          <TouchableOpacity
+            className={`px-4 py-2 rounded-lg ${
+              paginaActual === 1 ? "bg-gray-300" : "bg-gray-200"
             }`}
+            disabled={paginaActual === 1}
+            onPress={() => setPaginaActual((prev) => prev - 1)}
           >
-            1
-          </Text>
-          {paginaActual > 2 && <Text className="text-black">...</Text>}
-          {paginaActual > 1 && paginaActual < totalPaginas && (
-            <Text className="text-black">{paginaActual}</Text>
-          )}
-          {paginaActual < totalPaginas - 1 && (
-            <Text className="text-black">...</Text>
-          )}
-          <Text className="text-black">{totalPaginas}</Text>
-        </View>
+            <Text className="text-black font-medium">Anterior</Text>
+          </TouchableOpacity>
 
-        {/* Botón Siguiente */}
-        <TouchableOpacity
-          className={`px-4 py-2 rounded-lg ${
-            paginaActual === totalPaginas ? "bg-gray-300" : "bg-gray-200"
-          }`}
-          disabled={paginaActual === totalPaginas}
-          onPress={() => setPaginaActual((prev) => prev + 1)}
-        >
-          <Text className="text-black font-medium">Siguiente</Text>
-        </TouchableOpacity>
+          {/* Numeración de páginas */}
+          <View className="flex-row items-center space-x-2">
+            <Text
+              className={`px-3 py-1 rounded-full font-semibold ${
+                paginaActual === 1 ? "bg-yellow-400 text-black" : "text-black"
+              }`}
+            >
+              {paginaActual}
+            </Text>
+            {paginaActual < totalPaginas && (
+              <Text className="text-black">...</Text>
+            )}
+            <Text className="text-black">{totalPaginas}</Text>
+          </View>
+
+          {/* Botón Siguiente */}
+          <TouchableOpacity
+            className={`px-4 py-2 rounded-lg ${
+              paginaActual === totalPaginas ? "bg-gray-300" : "bg-gray-200"
+            }`}
+            disabled={paginaActual === totalPaginas}
+            onPress={() => setPaginaActual((prev) => prev + 1)}
+          >
+            <Text className="text-black font-medium">Siguiente</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </LinearGradient>
   );
