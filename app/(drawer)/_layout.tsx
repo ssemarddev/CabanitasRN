@@ -79,6 +79,46 @@ const DrawerLayout = () => {
           ),
         })}
       />
+
+      <Drawer.Screen
+        name="cupones-guest/index"
+        options={({ navigation }) => ({
+          title: "",
+          headerStyle: {
+            backgroundColor: "transparent", // Cambia el color de fondo del header
+          },
+          // Personalizar el ícono de menú hamburguesa
+          headerLeft: () => (
+            <Ionicons
+              name="menu" // Cambia a tu ícono preferido
+              size={50}
+              color="#3F2B00"
+              onPress={() => navigation.openDrawer()} // Abre el Drawer cuando se presiona
+              style={{ marginLeft: 10 }} // Ajusta la posición si es necesario
+            />
+          ),
+        })}
+      />
+
+      <Drawer.Screen
+        name="tyc/index"
+        options={({ navigation }) => ({
+          title: "",
+          headerStyle: {
+            backgroundColor: "transparent", // Cambia el color de fondo del header
+          },
+          // Personalizar el ícono de menú hamburguesa
+          headerLeft: () => (
+            <Ionicons
+              name="menu" // Cambia a tu ícono preferido
+              size={50}
+              color="#3F2B00"
+              onPress={() => navigation.openDrawer()} // Abre el Drawer cuando se presiona
+              style={{ marginLeft: 10 }} // Ajusta la posición si es necesario
+            />
+          ),
+        })}
+      />
     </Drawer>
   );
 };

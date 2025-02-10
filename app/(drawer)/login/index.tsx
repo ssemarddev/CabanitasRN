@@ -65,7 +65,7 @@ const Login = () => {
                 <Text className="ml-4 font-Poppins-Regular">Correo Electrónico:</Text>
                 <TextInput
                   style={styles.input}
-                   className="font-Poppins-Regular"
+                   className="font-Poppins-Regular mb-0"
                   keyboardType="email-address"
                   onChangeText={handleChange("correo")}
                   onBlur={handleBlur("correo")}

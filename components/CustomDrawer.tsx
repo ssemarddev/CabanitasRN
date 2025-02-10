@@ -33,7 +33,7 @@ const CustomDrawer = () => {
       {/* Verificar (solo visible logeados) */}
       {(userRole === "guest" || userRole === "admin") && (
         <View className="flex justify-center items-center mt-7">
-          <Pressable onPress={() => router.push("./info")}>
+          <Pressable onPress={() => router.push("./cupones-guest")}>
             <FontAwesome5 name="ticket-alt" size={60} color="black" />
             <Text className="text-center">Cupon</Text>
           </Pressable>
@@ -69,7 +69,7 @@ const CustomDrawer = () => {
               onPress={() => {
                 // Lógica para cerrar sesión
                 setUserRole("null"); // Restablecer a 'no autenticado'
-                router.push("/bienvenido"); // Redirige a la página de inicio
+                router.push("/login"); // Redirige a la página de inicio
               }}
             >
               <FontAwesome name="sign-out" size={60} color="black" />
@@ -81,7 +81,7 @@ const CustomDrawer = () => {
 
       {/* Info (visible para todos) */}
       <View className="flex justify-center items-center mt-7 mb-7">
-        <Pressable onPress={() => router.push("./info")}>
+        <Pressable onPress={() => router.push("./tyc")}>
           <FontAwesome name="info-circle" size={60} color="black" />
           <Text className="text-center">Info</Text>
         </Pressable>

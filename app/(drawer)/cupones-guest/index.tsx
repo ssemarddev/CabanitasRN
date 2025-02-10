@@ -183,11 +183,11 @@ const Index = () => {
       end={{ x: 1, y: 1 }}
       className="flex-1 justify-center p-4"
     >
-      <Text className="text-black text-3xl font-Poppins-ExtraBold text-center mt-8">
+      <Text className="text-black text-3xl font-Poppins-ExtraBold text-center mt-[88px]">
         Cupones
       </Text>
       <Text className="text-black text-center text-base">
-        Aquí podrás ver los clientes registrados próximos a cumplir años.
+        Aquí podrás ver los clientes registrados próximos a  {"\n"}  cumplir años.
       </Text>
 
       {/* Barra de búsqueda */}
