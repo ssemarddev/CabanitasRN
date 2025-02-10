@@ -75,27 +75,31 @@ const Registrar = () => {
                 <Text className="ml-4">Nombre(s):</Text>
                 <TextInput
                   style={styles.input}
-                   className="font-Poppins-Regular my-auto"
+                  className="font-Poppins-Regular my-auto"
                   onChangeText={handleChange("nombre")}
                   onBlur={handleBlur("nombre")}
                   value={values.nombre}
                   placeholder="Ingresa tu nombre..."
                 />
                 {touched.nombre && errors.nombre && (
-                  <Text  className="font-Poppins-Regular" style={styles.error}>{errors.nombre}</Text>
+                  <Text className="font-Poppins-Regular" style={styles.error}>
+                    {errors.nombre}
+                  </Text>
                 )}
 
                 <Text className="ml-4">Apellido(s):</Text>
                 <TextInput
                   style={styles.input}
-                   className="font-Poppins-Regular"
+                  className="font-Poppins-Regular"
                   onChangeText={handleChange("apellido")}
                   onBlur={handleBlur("apellido")}
                   value={values.apellido}
                   placeholder="Ingresa tu apellido..."
                 />
                 {touched.apellido && errors.apellido && (
-                  <Text  className="font-Poppins-Regular" style={styles.error}>{errors.apellido}</Text>
+                  <Text className="font-Poppins-Regular" style={styles.error}>
+                    {errors.apellido}
+                  </Text>
                 )}
 
                 <Text className="ml-4">Correo Electrónico:</Text>
@@ -109,13 +113,15 @@ const Registrar = () => {
                   placeholder="Ingresa tu correo electrónico..."
                 />
                 {touched.correo && errors.correo && (
-                  <Text  className="font-Poppins-Regular" style={styles.error}>{errors.correo}</Text>
+                  <Text className="font-Poppins-Regular" style={styles.error}>
+                    {errors.correo}
+                  </Text>
                 )}
 
                 <Text className="ml-4">Contraseña:</Text>
                 <TextInput
                   style={styles.input}
-                   className="font-Poppins-Regular"
+                  className="font-Poppins-Regular"
                   secureTextEntry
                   onChangeText={handleChange("password")}
                   onBlur={handleBlur("password")}
@@ -123,7 +129,9 @@ const Registrar = () => {
                   placeholder="Ingresa tu contraseña..."
                 />
                 {touched.password && errors.password && (
-                  <Text  className="font-Poppins-Regular" style={styles.error}>{errors.password}</Text>
+                  <Text className="font-Poppins-Regular" style={styles.error}>
+                    {errors.password}
+                  </Text>
                 )}
 
                 <Text className="ml-4">Rol:</Text>
@@ -137,7 +145,6 @@ const Registrar = () => {
                     <Picker.Item
                       label="Selecciona rol del usuario..."
                       value=""
-                      enabled={false}
                       color="gray"
                     />
                     <Picker.Item
@@ -152,9 +159,11 @@ const Registrar = () => {
                     />
                   </Picker>
                 </View>
-                  {touched.rol && errors.rol && (
-                    <Text className="font-Poppins-Regular" style={styles.error}>{errors.rol}</Text>
-                  )}
+                {touched.rol && errors.rol && (
+                  <Text className="font-Poppins-Regular" style={styles.error}>
+                    {errors.rol}
+                  </Text>
+                )}
 
                 <Boton text="Registrar" onPress={() => handleSubmit()} />
               </View>
