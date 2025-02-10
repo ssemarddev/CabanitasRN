@@ -8,7 +8,7 @@ import { router } from "expo-router";
 const CustomDrawer = () => {
   // Simulación del estado de autenticación
 
-  const [userRole, setUserRole] = useState("guest"); // "guest", "admin" o null (no autenticado)
+  const [userRole, setUserRole] = useState("admin"); // "guest", "admin" o null (no autenticado)
 
   return (
     <View className="flex-1">

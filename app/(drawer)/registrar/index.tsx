@@ -9,6 +9,7 @@ import {
   Image,
   ScrollView,
 } from "react-native";
+import { Picker } from "@react-native-picker/picker";
 import { LinearGradient } from "expo-linear-gradient";
 import { Formik } from "formik";
 import * as Yup from "yup";
@@ -21,13 +22,13 @@ const validationSchema = Yup.object().shape({
   correo: Yup.string()
     .email("Correo inválido")
     .required("El correo es obligatorio"),
-  telefono: Yup.string()
-    .matches(/^\d+$/, "Solo se permiten números")
-    .min(10, "Debe tener al menos 10 dígitos")
-    .required("El teléfono es obligatorio"),
+  password: Yup.string()
+    .min(6, "La contraseña debe tener al menos 6 caracteres")
+    .required("La contraseña es obligatoria"),
+  rol: Yup.string().required("El rol es obligatorio"),
 });
 
-const Formulario = () => {
+const Registrar = () => {
   return (
     <LinearGradient
       colors={["#FED78A", "#ffbf37"]}
@@ -43,7 +44,8 @@ const Formulario = () => {
               Bienvenido
             </Text>
             <Text className="font-Poppins-Regular text-[12px] text-center w-full">
-              Ingresa tus datos para recibir tu {"\n"} cortesia de cumpleanos
+              Ingresa tus datos para registrar {"\n"} invitados o
+              administradores
             </Text>
           </View>
 
@@ -52,7 +54,8 @@ const Formulario = () => {
               nombre: "",
               apellido: "",
               correo: "",
-              telefono: "",
+              password: "",
+              rol: "",
             }}
             validationSchema={validationSchema}
             onSubmit={(values) =>
@@ -66,35 +69,36 @@ const Formulario = () => {
               values,
               errors,
               touched,
+              setFieldValue,
             }) => (
               <View style={styles.container}>
-                <Text className="ml-4 font-Poppins-Regular">Nombre(s):</Text>
+                <Text className="ml-4">Nombre(s):</Text>
                 <TextInput
                   style={styles.input}
-                  className="font-Poppins-Regular"
+                   className="font-Poppins-Regular my-auto"
                   onChangeText={handleChange("nombre")}
                   onBlur={handleBlur("nombre")}
                   value={values.nombre}
                   placeholder="Ingresa tu nombre..."
                 />
                 {touched.nombre && errors.nombre && (
-                  <Text className="font-Poppins-Regular" style={styles.error}>{errors.nombre}</Text>
+                  <Text  className="font-Poppins-Regular" style={styles.error}>{errors.nombre}</Text>
                 )}
 
-                <Text className="ml-4 font-Poppins-Regular">Apellido(s):</Text>
+                <Text className="ml-4">Apellido(s):</Text>
                 <TextInput
                   style={styles.input}
-                  className="font-Poppins-Regular"
+                   className="font-Poppins-Regular"
                   onChangeText={handleChange("apellido")}
                   onBlur={handleBlur("apellido")}
                   value={values.apellido}
                   placeholder="Ingresa tu apellido..."
                 />
                 {touched.apellido && errors.apellido && (
-                  <Text className="font-Poppins-Regular" style={styles.error}>{errors.apellido}</Text>
+                  <Text  className="font-Poppins-Regular" style={styles.error}>{errors.apellido}</Text>
                 )}
 
-                <Text className="ml-4 font-Poppins-Regular">Correo Electrónico:</Text>
+                <Text className="ml-4">Correo Electrónico:</Text>
                 <TextInput
                   style={styles.input}
                   className="font-Poppins-Regular"
@@ -102,27 +106,57 @@ const Formulario = () => {
                   onChangeText={handleChange("correo")}
                   onBlur={handleBlur("correo")}
                   value={values.correo}
-                  placeholder="Ingresa tu correo electronico..."
+                  placeholder="Ingresa tu correo electrónico..."
                 />
                 {touched.correo && errors.correo && (
-                  <Text className="font-Poppins-Regular" style={styles.error}>{errors.correo}</Text>
+                  <Text  className="font-Poppins-Regular" style={styles.error}>{errors.correo}</Text>
                 )}
 
-                <Text className="ml-4 font-Poppins-Regular">Teléfono:</Text>
+                <Text className="ml-4">Contraseña:</Text>
                 <TextInput
                   style={styles.input}
-                  className="font-Poppins-Regular"
-                  keyboardType="phone-pad"
-                  onChangeText={handleChange("telefono")}
-                  onBlur={handleBlur("telefono")}
-                  value={values.telefono}
-                  placeholder="Ingresa tu numero de telefono..."
+                   className="font-Poppins-Regular"
+                  secureTextEntry
+                  onChangeText={handleChange("password")}
+                  onBlur={handleBlur("password")}
+                  value={values.password}
+                  placeholder="Ingresa tu contraseña..."
                 />
-                {touched.telefono && errors.telefono && (
-                  <Text className="font-Poppins-Regular" style={styles.error}>{errors.telefono}</Text>
+                {touched.password && errors.password && (
+                  <Text  className="font-Poppins-Regular" style={styles.error}>{errors.password}</Text>
                 )}
 
-                <Boton text="Enviar Datos" onPress={() => handleSubmit()} />
+                <Text className="ml-4">Rol:</Text>
+                <View style={styles.inputPicker}>
+                  <Picker
+                    selectedValue={values.rol}
+                    onValueChange={(itemValue) =>
+                      setFieldValue("rol", itemValue)
+                    }
+                  >
+                    <Picker.Item
+                      label="Selecciona rol del usuario..."
+                      value=""
+                      enabled={false}
+                      color="gray"
+                    />
+                    <Picker.Item
+                      label="Invitado"
+                      value="invitado"
+                      color="black"
+                    />
+                    <Picker.Item
+                      label="Administrador"
+                      value="admin"
+                      color="black"
+                    />
+                  </Picker>
+                </View>
+                  {touched.rol && errors.rol && (
+                    <Text className="font-Poppins-Regular" style={styles.error}>{errors.rol}</Text>
+                  )}
+
+                <Boton text="Registrar" onPress={() => handleSubmit()} />
               </View>
             )}
           </Formik>
@@ -144,10 +178,17 @@ const styles = StyleSheet.create({
     borderRadius: 11,
     backgroundColor: "white",
   },
+  inputPicker: {
+    borderWidth: 1,
+    borderColor: "#ccc",
+    marginBottom: 10,
+    borderRadius: 11,
+    backgroundColor: "white",
+  },
   error: {
     color: "red",
     marginBottom: 10,
   },
 });
 
-export default Formulario;
+export default Registrar;
