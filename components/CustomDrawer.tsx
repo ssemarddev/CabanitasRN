@@ -11,6 +11,7 @@ const CustomDrawer = () => {
   const [userRole, setUserRole] = useState("admin"); // "guest", "admin" o null (no autenticado)
 
   return (
+    
     <View className="flex-1">
       {/* Inicio (visible para todos) */}
       <View className="flex justify-center items-center mt-7">
@@ -43,7 +44,7 @@ const CustomDrawer = () => {
       {/* Verificar (solo visible logeados) */}
       {(userRole === "guest" || userRole === "admin") && (
         <View className="flex justify-center items-center mt-7">
-          <Pressable onPress={() => router.push("./info")}>
+          <Pressable onPress={() => router.push("./verificar")}>
             <Ionicons name="checkmark-circle-sharp" size={60} color="black" />
             <Text className="text-center">Verificar</Text>
           </Pressable>
