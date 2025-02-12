@@ -4,19 +4,23 @@ import {
   TextInput,
   FlatList,
   TouchableOpacity,
+  Modal,
+  Alert,
 } from "react-native";
 import React, { useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
+import * as FileSystem from "expo-file-system";
+import * as XLSX from "xlsx";
 
-const data = [
+const dataInicial = [
   {
     id: "1",
     nombre: "Juan Pérez",
     email: "correo@gmail.com",
     numero: "1234567890",
-    fecha: "2024-01-15",
+    fecha: "15-01-2024",
   },
   {
     id: "2",
@@ -103,6 +107,70 @@ const Index = () => {
   const [search, setSearch] = useState("");
   const [selectedMonth, setSelectedMonth] = useState("todos");
   const [paginaActual, setPaginaActual] = useState(1);
+  const [data, setData] = useState(dataInicial);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [usuarioAEliminar, setUsuarioAEliminar] = useState<string | null>(null);
+  const [usuarioSeleccionado, setUsuarioSeleccionado] = useState<string | null>(null);
+
+  const editarUsuario = (id: string) => {
+    console.log("Editar usuario con ID:", id);
+  };
+
+  const enviarCupones = () =>{
+    console.log("Enviando cupones...");
+  }
+
+  const descargarExcel = async () => {
+    // Datos de ejemplo para crear el archivo Excel
+    const data = [
+      { Nombre: "Juan", Edad: 30, Ciudad: "Madrid" },
+      { Nombre: "Ana", Edad: 25, Ciudad: "Barcelona" },
+      { Nombre: "Luis", Edad: 35, Ciudad: "Valencia" },
+    ];
+
+    // Crear un libro de trabajo (workbook)
+    const ws = XLSX.utils.json_to_sheet(data);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Datos");
+
+    // Generar el archivo Excel en formato binario
+    const excelData = XLSX.write(wb, { bookType: "xlsx", type: "binary" });
+
+    // Convertir el contenido binario a un formato adecuado para guardarlo como archivo
+    const fileUri = FileSystem.documentDirectory + "datos.xlsx";
+
+    try {
+      // Guardar el archivo en el sistema de archivos
+      await FileSystem.writeAsStringAsync(fileUri, excelData, {
+        encoding: FileSystem.EncodingType.UTF8,
+      });
+
+      alert(
+        "Archivo Excel descargado exitosamente! Puedes encontrarlo en la carpeta de documentos."
+      );
+    } catch (error) {
+      console.error("Error al crear el archivo Excel", error);
+      alert("Hubo un error al descargar el archivo.");
+    }
+  };
+
+  const eliminarUsuario = (id: string) => {
+    setUsuarioAEliminar(id);
+    setModalVisible(true);
+  };
+
+  const confirmarEliminacion = () => {
+    if (usuarioAEliminar) {
+      setData(data.filter((item) => item.id !== usuarioAEliminar));
+      setModalVisible(false);
+      setUsuarioAEliminar(null);
+    }
+  };
+
+  const cancelarEliminacion = () => {
+    setModalVisible(false);
+    setUsuarioAEliminar(null);
+  };
 
   const datosFiltrados = data.filter((item) => {
     const nombreCoincide = item.nombre
@@ -150,58 +218,80 @@ const Index = () => {
         </View>
       </View>
 
-      {/* Filtro por mes */}
-      <View className="mt-6 w-48">
-        <Text className="font-semibold">Filtrar por mes</Text>
-        <View className="bg-gray-200 rounded-lg overflow-hidden mt-2">
-          <Picker
-            selectedValue={selectedMonth}
-            onValueChange={(value) => {
-              setSelectedMonth(value);
-              setPaginaActual(1);
-            }}
-            style={{ height: 50 }}
-          >
-            <Picker.Item label="Todos" value="todos" />
-            {[
-              "Enero",
-              "Febrero",
-              "Marzo",
-              "Abril",
-              "Mayo",
-              "Junio",
-              "Julio",
-              "Agosto",
-              "Septiembre",
-              "Octubre",
-              "Noviembre",
-              "Diciembre",
-            ].map((mes, index) => (
-              <Picker.Item
-                key={index}
-                label={mes}
-                value={(index + 1).toString().padStart(2, "0")}
-              />
-            ))}
-          </Picker>
+      <Text className="font-semibold mt-5">Filtrar por mes</Text>
+      <View className="flex-row items-center justify-between gap-4">
+        <View className="w-36">
+          <View className="bg-gray-200 rounded-lg overflow-hidden mt-2">
+            <Picker
+              selectedValue={selectedMonth}
+              onValueChange={(value) => {
+                setSelectedMonth(value);
+                setPaginaActual(1);
+              }}
+              style={{ height: 50 }}
+            >
+              <Picker.Item label="Todos" value="todos" />
+              {[
+                "Enero",
+                "Febrero",
+                "Marzo",
+                "Abril",
+                "Mayo",
+                "Junio",
+                "Julio",
+                "Agosto",
+                "Septiembre",
+                "Octubre",
+                "Noviembre",
+                "Diciembre",
+              ].map((mes, index) => (
+                <Picker.Item
+                  key={index}
+                  label={mes}
+                  value={(index + 1).toString().padStart(2, "0")}
+                />
+              ))}
+            </Picker>
+          </View>
         </View>
+
+        <TouchableOpacity
+          onPress={enviarCupones}
+          className="p-2 rounded-lg"
+          style={{ backgroundColor: "#175203" }}
+        >
+          <Text className="text-white text-sm font-Poppins-Regular p-1 w-full">
+            Enviar cupones
+          </Text>
+        </TouchableOpacity>
+
+        {/* Botón Descargar Excel */}
+        <TouchableOpacity
+          onPress={descargarExcel}
+          className="p-2 rounded-lg"
+          style={{ backgroundColor: "#175203" }}
+        >
+          <Text className="text-white text-sm font-Poppins-Regular p-1 w-full">
+            Descargar Excel
+          </Text>
+        </TouchableOpacity>
       </View>
 
       <View className="flex-1 overflow-auto">
-        
         <View className="mt-3">
           <View className="flex-row bg-gray-300 p-3 rounded-md text-center">
             <Text className="flex-1 font-Poppins-Bold text-black text-base">
               Nombre
             </Text>
-            <Text className="flex-1 font-Poppins-Bold text-black text-base">
-              E-mail
-            </Text>
+            <Text className="flex-1 font-Poppins-Bold text-black">E-mail</Text>
             <Text className="flex-1 font-Poppins-Bold text-black text-base">
               Número
             </Text>
             <Text className="flex-1 font-Poppins-Bold text-black text-base">
               Fecha
+            </Text>
+            <Text className="flex-1 font-Poppins-Bold text-black text-base">
+              Acciones
             </Text>
           </View>
 
@@ -225,11 +315,68 @@ const Index = () => {
                   <Text className="flex-1 text-black text-xs">
                     {item.fecha}
                   </Text>
+                  <View className="flex-1 flex-row justify-between space-x-2">
+                    <TouchableOpacity
+                      onPress={() => editarUsuario(item.id)}
+                      className="p-2 rounded-lg"
+                      style={{ backgroundColor: "#523903" }}
+                    >
+                      <Ionicons name="create" size={20} color="white" />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() => {
+                        setUsuarioSeleccionado(item.nombre);
+                        eliminarUsuario(item.id);
+                      }}
+                      className="p-2 rounded-lg"
+                      style={{ backgroundColor: "#523903" }}
+                    >
+                      <Ionicons name="trash" size={20} color="white" />
+                    </TouchableOpacity>
+                  </View>
                 </View>
               )}
             />
           </View>
         </View>
+
+        {/* Modal de confirmación de eliminación */}
+        <Modal
+          visible={modalVisible}
+          transparent={true}
+          animationType="fade"
+          onRequestClose={cancelarEliminacion}
+        >
+          <View
+            className="flex-1 justify-center items-center"
+            style={{ backgroundColor: "rgba(0, 0, 0, 0.46)" }}
+          >
+            <View>
+              <View className="bg-red-600 items-center rounded-t-lg">
+                <Ionicons name="alert" size={50} color="white" />
+              </View>
+              <View className="bg-white p-4 rounded-b-lg">
+                <Text className="text-center text-lg font-semibold text-black">
+                  Deseas eliminar el usuario: {usuarioSeleccionado}?
+                </Text>
+                <View className="flex-row justify-around mt-4">
+                  <TouchableOpacity
+                    onPress={cancelarEliminacion}
+                    className="bg-gray-300 p-2 rounded-lg"
+                  >
+                    <Text className="text-black">Cancelar</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={confirmarEliminacion}
+                    className="bg-red-600 p-2 rounded-lg"
+                  >
+                    <Text className="text-white">Eliminar</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+          </View>
+        </Modal>
 
         <View className="flex-row justify-between items-center bg-white py-3 px-5 rounded-b-lg shadow-md">
           {/* Botón Anterior */}
