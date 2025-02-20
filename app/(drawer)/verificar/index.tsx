@@ -36,7 +36,7 @@ const VerificarCupones = () => {
       colors={["#FED78A", "#ffbf37"]}
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 1 }}
-      className="h-full p-4"
+      className="h-full"
     >
       <ScrollView>
         <View>
