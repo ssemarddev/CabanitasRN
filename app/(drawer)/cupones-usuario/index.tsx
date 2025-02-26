@@ -4,7 +4,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import QRCode from "react-native-qrcode-svg";
 
 
-export default function QRScreen() {
+const Index = () =>  {
   return (
     <LinearGradient
       colors={["#FED78A", "#FFBF37"]}
@@ -43,3 +43,4 @@ export default function QRScreen() {
     </LinearGradient>
   );
 }
+export default Index;

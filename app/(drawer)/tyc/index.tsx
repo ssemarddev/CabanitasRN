@@ -2,7 +2,7 @@ import { View, Text } from "react-native";
 import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
 
-export default function index() {
+const Index = () =>  {
   return (
     <LinearGradient
       colors={["#FED78A", "#FFBF37"]}
@@ -46,3 +46,4 @@ export default function index() {
     </LinearGradient>
   );
 }
+export default Index;
