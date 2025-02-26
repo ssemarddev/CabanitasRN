@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "scripts": {
     "start": "npx serve dist",
-    "build": "expo export",
+    "build": "npx expo export",
     "heroku-postbuild": "npm run build",
     "reset-project": "node ./scripts/reset-project.js",
     "android": "expo start --android",
