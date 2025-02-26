@@ -22,6 +22,12 @@
       "output": "static",
       "favicon": "./assets/images/LogoCaba.png"
     },
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+
     "plugins": [
       "expo-router",
       [
