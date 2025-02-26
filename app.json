@@ -20,7 +20,10 @@
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/LogoCaba.png"
+      "favicon": "./assets/images/LogoCaba.png",
+      "build": {
+      "output": "dist"
+    }
     },
     "platforms": [
       "ios",

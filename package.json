@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "scripts": {
     "start": "npx serve dist",
-    "build": "npx expo export",
+    "build": "expo build:web",
     "heroku-postbuild": "npm run build",
     "reset-project": "node ./scripts/reset-project.js",
     "android": "expo start --android",
@@ -51,6 +51,7 @@
     "yup": "^1.6.1"
   },
   "devDependencies": {
+    "expo-cli": "^4.0.16",
     "@babel/core": "^7.25.2",
     "@types/jest": "^29.5.12",
     "@types/react": "~18.3.12",
