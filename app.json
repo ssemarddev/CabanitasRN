@@ -20,17 +20,8 @@
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/LogoCaba.png",
-      "build": {
-      "output": "dist"
-    }
+      "favicon": "./assets/images/LogoCaba.png"
     },
-    "platforms": [
-      "ios",
-      "android",
-      "web"
-    ],
-
     "plugins": [
       "expo-router",
       [
