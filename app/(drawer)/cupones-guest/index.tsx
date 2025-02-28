@@ -99,7 +99,7 @@ const data = [
 
 const ITEMS_POR_PAGINA = 6;
 
-const Index = () => {
+const cuponesGuest = () => {
   const [search, setSearch] = useState("");
   const [selectedMonth, setSelectedMonth] = useState("todos");
   const [paginaActual, setPaginaActual] = useState(1);
@@ -274,4 +274,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default cuponesGuest;
