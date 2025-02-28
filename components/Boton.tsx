@@ -5,6 +5,7 @@ import { GestureResponderEvent } from "react-native";
 interface Boton {
     text: string;
     onPress: (event: GestureResponderEvent) => void;
+    disabled?: boolean;
   }
 
 const Boton = ({ text, onPress }:Boton) => {
